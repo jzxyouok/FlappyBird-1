@@ -2,10 +2,12 @@
 #define __LOADING_SCENE_H__
 
 #include "cocos2d.h"
+#include "SimpleAudioEngine.h"
 
 #include "WelcomeScene.h"
 
 USING_NS_CC;
+using namespace CocosDenshion;
 
 class LoadingLayer: public cocos2d::Layer
 {

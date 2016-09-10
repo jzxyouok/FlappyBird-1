@@ -26,6 +26,8 @@ bool LoadingLayer::init()
 	loading->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
 	this->addChild(loading);
 
+	SimpleAudioEngine::getInstance()->preloadEffect("sounds/start.ogg");
+
 	// 加载纹理图集
 	Director::getInstance()->getTextureCache()->addImageAsync("res.png", CC_CALLBACK_1(LoadingLayer::loadingCallBack, this));
 
