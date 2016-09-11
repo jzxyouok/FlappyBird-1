@@ -5,6 +5,7 @@
 #include "SimpleAudioEngine.h"
 
 #include "GameScene.h"
+#include "Bird.h"
 
 USING_NS_CC;
 using namespace CocosDenshion;
@@ -28,6 +29,9 @@ private:
 	// 地板
 	Sprite* land1;
 	Sprite* land2;
+
+	// 小鸟
+	Bird* bird;
 };
 
 #endif

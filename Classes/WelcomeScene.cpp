@@ -49,6 +49,11 @@ bool WelcomeLayer::init()
 	copyright->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 6));
 	this->addChild(copyright, 2);
 
+	// 小鸟
+	bird = Bird::createBird();
+	bird->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height * 3 / 5 - 10));
+	this->addChild(bird, 1);
+
 	// 开始按钮
 	Sprite* startButtonNormal = Sprite::createWithSpriteFrameName("button_play.png");
 	Sprite* startButtonSelected = Sprite::createWithSpriteFrameName("button_play.png");
@@ -81,11 +86,9 @@ bool WelcomeLayer::init()
 // 开始按钮回调函数
 void WelcomeLayer::menuStartCallback(Ref* pSender)
 {
-	SimpleAudioEngine::getInstance()->playEffect("sounds/start.ogg");
+	this->removeChild(bird);
 
-	//auto scene = GameLayer::createScene();
 
-	//Director::getInstance()->replaceScene(TransitionFade::create(0.5, scene));
 }
 
 // 地板滚动
