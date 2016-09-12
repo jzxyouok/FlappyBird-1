@@ -8,7 +8,6 @@ USING_NS_CC;
 class BackgroundLayer : public Layer
 {
 public:
-	
 	virtual bool init();
 
 	CREATE_FUNC(BackgroundLayer);

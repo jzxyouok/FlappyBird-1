@@ -3,7 +3,6 @@
 
 #include "cocos2d.h"
 #include "SimpleAudioEngine.h"
-
 #include "GameScene.h"
 #include "Bird.h"
 #include "BackgroundLayer.h"

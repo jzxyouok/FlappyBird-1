@@ -47,16 +47,17 @@ bool GameLayer::init()
 	land2->setPosition(Vec2(land1->getContentSize().width - 2.0f, 0));
 	this->addChild(land2, 1);
 
-	// 开启定时器，滚动地板
-	this->schedule(schedule_selector(GameLayer::scrollLand), 0.01f);
-
+	// 开启滚动地板定时器
+	this->schedule(schedule_selector(GameLayer::scroll), 0.01f);
+	
+	// 捕捉小鸟状态定时器
+	this->schedule(schedule_selector(GameLayer::checkBird), 0.01f);
 
 	// 注册接触事件监听器
 	auto contactListener = EventListenerPhysicsContact::create();
 	contactListener->onContactBegin = [this](PhysicsContact& contact)
 	{
 		this->gameOver();
-
 		return true;
 	};
 
@@ -70,40 +71,64 @@ bool GameLayer::init()
 
 }
 
-// 地板滚动
-void GameLayer::scrollLand(float dt)
+// 滚动
+void GameLayer::scroll(float dt)
 {
+	// 地板滚动
 	land1->setPositionX(land1->getPositionX() - 2.0f);
 	land2->setPositionX(land1->getPositionX() + land1->getContentSize().width - 2.0f);
-
 	if (land2->getPositionX() == 0)
 	{
 		land1->setPositionX(0);
 	}
+
+	// 管子移动
+	for (auto singlePipe : this->pipes) {
+		singlePipe->setPositionX(singlePipe->getPositionX() - 2);
+		if (singlePipe->getPositionX() < -PIPE_WIDTH) {
+			singlePipe->setTag(PIPE_NEW);
+			Size visibleSize = Director::getInstance()->getVisibleSize();
+			singlePipe->setPositionX(visibleSize.width);
+			singlePipe->setPositionY(this->getRandomHeight());
+		}
+	}
 }
 
 // 默认定时器
-void GameLayer::update(float delta) {
-	if (this->gameStatus == GAME_STATUS_START) {
-	
+void GameLayer::checkBird(float dt) {
+	if (this->gameStatus == GAME_STATUS_START) 
+	{
+		this->rotateBird();
+
+		
 	}
+}
+
+void GameLayer::rotateBird()
+{
+	float verticalSpeed = this->bird->getPhysicsBody()->getVelocity().y;
+	this->bird->setRotation(min(max(-90, (verticalSpeed*0.2 + 60)), 30));
 }
 
 // 触摸事件
 void GameLayer::onTouchesBegan(const vector<Touch*>& touches, Event *event)
 {
-	if (this->gameStatus == GAME_STATUS_OVER) {
+	if (this->gameStatus == GAME_STATUS_OVER) 
+	{
 		return;
 	}
 
 	SimpleAudioEngine::getInstance()->playEffect("sounds/fly.wav");
 
-	if (this->gameStatus == GAME_STATUS_READY) {
+	if (this->gameStatus == GAME_STATUS_READY) 
+	{
 		
 
 		this->gameStatus = GAME_STATUS_START;
+		this->createPipes();
 	}
-	else if (this->gameStatus == GAME_STATUS_START) {
+	else if (this->gameStatus == GAME_STATUS_START) 
+	{
 		this->bird->getPhysicsBody()->setVelocity(Vect(0, 260));
 	}
 }
@@ -112,4 +137,38 @@ void GameLayer::onTouchesBegan(const vector<Touch*>& touches, Event *event)
 void GameLayer::gameOver()
 {
 	log("gameover");
+}
+
+
+void GameLayer::createPipes() {
+	for (int i = 0; i < 2; i++) 
+	{
+		Size visibleSize = Director::getInstance()->getVisibleSize();
+
+		Node *singlePipe = Node::create();
+		Sprite *pipeUp = Sprite::createWithSpriteFrameName("pipe_up.png");
+		Sprite *pipeDown = Sprite::createWithSpriteFrameName("pipe_down.png");
+		
+		pipeDown->setPosition(0, PIPE_HEIGHT + PIPE_DISTANCE);
+		singlePipe->addChild(pipeDown, 0, DOWN_PIPE);
+		singlePipe->addChild(pipeUp, 0, UP_PIPE);
+		singlePipe->setPosition(visibleSize.width + i*PIPE_INTERVAL + WAIT_DISTANCE, this->getRandomHeight());
+
+		auto body = PhysicsBody::create();
+		auto shapeBoxDown = PhysicsShapeBox::create(pipeDown->getContentSize(), PHYSICSSHAPE_MATERIAL_DEFAULT, Vec2(0, PIPE_HEIGHT + PIPE_DISTANCE));
+		body->addShape(shapeBoxDown);
+		body->addShape(PhysicsShapeBox::create(pipeUp->getContentSize()));
+		body->setDynamic(false);
+		singlePipe->setPhysicsBody(body);
+		singlePipe->setTag(PIPE_NEW);
+
+		this->addChild(singlePipe);
+		this->pipes.push_back(singlePipe);
+	}
+}
+
+// 得到随机的管道长度
+int GameLayer::getRandomHeight() {
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	return rand() % (int)(2 * PIPE_HEIGHT + PIPE_DISTANCE - visibleSize.height);
 }

@@ -21,7 +21,7 @@ bool WelcomeLayer::init()
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	// 背景图片
+	// 背景层
 	auto bg = BackgroundLayer::create();
 	if (bg)
 	{
@@ -42,6 +42,7 @@ bool WelcomeLayer::init()
 	bird = Bird::createBird();
 	bird->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height * 3 / 5 - 10));
 	bird->setTag(100);
+	bird->ready();
 	this->addChild(bird, 1);
 
 	// 开始按钮
