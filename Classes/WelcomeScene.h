@@ -6,11 +6,12 @@
 
 #include "GameScene.h"
 #include "Bird.h"
+#include "BackgroundLayer.h"
 
 USING_NS_CC;
 using namespace CocosDenshion;
 
-class WelcomeLayer : public cocos2d::Layer
+class WelcomeLayer : public Layer
 {
 public:
 	static Scene* createScene();

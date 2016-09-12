@@ -1,30 +1,28 @@
 ﻿#include "GameScene.h"
 
-Scene* GameLayer::createScene()
+bool GameScene::init()
 {
-	auto scene = Scene::createWithPhysics();
-
-	PhysicsWorld * phyWorld = scene->getPhysicsWorld();
-
-	// 设置重力，不受影响
-	phyWorld->setGravity(Vect(0, 0));
-
-	auto layer = GameLayer::create();
-
-	scene->addChild(layer);
-
-	return scene;
-}
-
-bool GameLayer::init()
-{
-	if (!Layer::init())
+	if (!Scene::initWithPhysics())
 	{
 		return false;
 	}
 
+	// 设置重力
+	this->getPhysicsWorld()->setGravity(Vect(0, -900));
 
+	// 背景层
+	auto background = BackgroundLayer::create();
+	if (background)
+	{
+		this->addChild(background, 0);
+	}
 
+	// 游戏层
+	auto gameLayer = GameLayer::create();
+	if (gameLayer)
+	{
+		this->addChild(gameLayer, 1);
+	}
 
 	return true;
 }

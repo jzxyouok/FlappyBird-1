@@ -3,16 +3,18 @@
 
 #include "cocos2d.h"
 
+#include "BackgroundLayer.h"
+#include "GameLayer.h"
+
 USING_NS_CC;
 
-class GameLayer : public cocos2d::Layer
+class GameScene : public Scene
 {
 public:
-	static Scene* createScene();
 
 	virtual bool init();
 
-	CREATE_FUNC(GameLayer);
+	CREATE_FUNC(GameScene);
 private:
 
 };

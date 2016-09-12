@@ -21,23 +21,12 @@ bool WelcomeLayer::init()
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	// 得到系统时间
-	time_t t = time(NULL);
-	tm* lt = localtime(&t);
-	int hour = lt->tm_hour;
-
-	// 根据时间渲染不同的背景图片
-	Sprite* bg;
-	if (hour >= 6 && hour <= 17)
+	// 背景图片
+	auto bg = BackgroundLayer::create();
+	if (bg)
 	{
-		bg = Sprite::createWithSpriteFrameName("bg_day.png");
+		this->addChild(bg, 0);
 	}
-	else
-	{
-		bg = Sprite::createWithSpriteFrameName("bg_night.png");
-	}
-	bg->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
-	this->addChild(bg, 0);
 
 	// 标题
 	Sprite* title = Sprite::createWithSpriteFrameName("title.png");
@@ -52,6 +41,7 @@ bool WelcomeLayer::init()
 	// 小鸟
 	bird = Bird::createBird();
 	bird->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height * 3 / 5 - 10));
+	bird->setTag(100);
 	this->addChild(bird, 1);
 
 	// 开始按钮
@@ -86,9 +76,12 @@ bool WelcomeLayer::init()
 // 开始按钮回调函数
 void WelcomeLayer::menuStartCallback(Ref* pSender)
 {
-	this->removeChild(bird);
+	SimpleAudioEngine::getInstance()->playEffect("sounds/swooshing.wav");
 
+	this->removeChildByTag(100);
 
+	auto scene = GameScene::create();
+	Director::getInstance()->replaceScene(TransitionFade::create(0.5, scene));
 }
 
 // 地板滚动

@@ -9,7 +9,7 @@
 USING_NS_CC;
 using namespace CocosDenshion;
 
-class LoadingLayer: public cocos2d::Layer
+class LoadingLayer: public Layer
 {
 public:
 	static Scene* createScene();

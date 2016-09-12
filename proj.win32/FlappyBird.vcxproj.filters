@@ -10,6 +10,12 @@
     <Filter Include="src">
       <UniqueIdentifier>{bb6c862e-70e9-49d9-81b7-3829a6f50471}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\scene">
+      <UniqueIdentifier>{b68c6ceb-ca20-4173-b870-6687a84db371}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\layer">
+      <UniqueIdentifier>{ce426326-efc0-4240-8a02-8b2891b78a84}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -18,17 +24,23 @@
     <ClCompile Include="..\Classes\AppDelegate.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\GameScene.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\LoadingScene.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\WelcomeScene.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Bird.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameScene.cpp">
+      <Filter>src\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\LoadingScene.cpp">
+      <Filter>src\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\WelcomeScene.cpp">
+      <Filter>src\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\BackgroundLayer.cpp">
+      <Filter>src\layer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameLayer.cpp">
+      <Filter>src\layer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -38,17 +50,23 @@
     <ClInclude Include="..\Classes\AppDelegate.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GameScene.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\LoadingScene.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\WelcomeScene.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Bird.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameScene.h">
+      <Filter>src\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\LoadingScene.h">
+      <Filter>src\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\WelcomeScene.h">
+      <Filter>src\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\BackgroundLayer.h">
+      <Filter>src\layer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameLayer.h">
+      <Filter>src\layer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
