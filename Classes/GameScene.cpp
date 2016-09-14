@@ -21,6 +21,7 @@ bool GameScene::init()
 	auto gameLayer = GameLayer::create();
 	if (gameLayer)
 	{
+		gameLayer->setPhyWorld(this->getPhysicsWorld());
 		this->addChild(gameLayer, 1);
 	}
 

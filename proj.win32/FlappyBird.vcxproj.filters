@@ -16,15 +16,15 @@
     <Filter Include="src\layer">
       <UniqueIdentifier>{ce426326-efc0-4240-8a02-8b2891b78a84}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\model">
+      <UniqueIdentifier>{547386df-6a31-46f4-8a6c-97acb7d82cb5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>win32</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\AppDelegate.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Bird.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\GameScene.cpp">
@@ -42,15 +42,15 @@
     <ClCompile Include="..\Classes\GameLayer.cpp">
       <Filter>src\layer</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Bird.cpp">
+      <Filter>src\model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
       <Filter>win32</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\AppDelegate.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Bird.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\GameScene.h">
@@ -67,6 +67,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\GameLayer.h">
       <Filter>src\layer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Bird.h">
+      <Filter>src\model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
