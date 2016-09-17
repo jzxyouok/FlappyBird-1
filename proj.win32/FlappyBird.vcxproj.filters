@@ -45,6 +45,9 @@
     <ClCompile Include="..\Classes\Bird.cpp">
       <Filter>src\model</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\StatusLayer.cpp">
+      <Filter>src\layer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -70,6 +73,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Bird.h">
       <Filter>src\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\StatusLayer.h">
+      <Filter>src\layer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

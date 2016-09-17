@@ -14,7 +14,7 @@ bool GameLayer::init()
 	this->gameState = GAME_STATE_READY;
 	this->score = 0;
 
-	// 添加小鸟
+	// 添加小鸟,小鸟物理引擎
 	bird = Bird::createBird();
 	PhysicsBody* body = PhysicsBody::create();
 	body->addShape(PhysicsShapeCircle::create(BIRD_RADIUS));
@@ -25,30 +25,31 @@ bool GameLayer::init()
 	bird->setPhysicsBody(body);
 	bird->setPosition(origin.x + visibleSize.width * 1 / 3 - 5, origin.y + visibleSize.height / 2 + 5);
 	bird->ready();
-	this->addChild(bird, 1, BIRD_NEW);
+	bird->setTag(BIRD_NEW);
+	this->addChild(bird);
 
 	// 地板节点
 	groundNode = Node::create();
 	float landHeight = Sprite::createWithSpriteFrameName("land.png")->getContentSize().height;
 	auto groundBody = PhysicsBody::create();
-	groundBody->addShape(PhysicsShapeBox::create(Size(288, landHeight)));
+	groundBody->addShape(PhysicsShapeBox::create(Size(visibleSize.width, landHeight)));
 	groundBody->setDynamic(false);
 	groundBody->setLinearDamping(0.0f);
 	groundBody->setContactTestBitmask(0x01);
 	groundNode->setPhysicsBody(groundBody);
-	groundNode->setPosition(144, landHeight / 2);
-	this->addChild(groundNode, 1, LAND_TAG);
+	groundNode->setPosition(visibleSize.width / 2, landHeight / 2);
+	groundNode->setTag(LAND_TAG);
+	this->addChild(groundNode);
 
 	// 地板
 	land1 = Sprite::createWithSpriteFrameName("land.png");
 	land1->setAnchorPoint(Vec2::ZERO);
 	land1->setPosition(Vec2::ZERO);
-	this->addChild(land1, 30);
-
+	this->addChild(land1, 3);
 	land2 = Sprite::createWithSpriteFrameName("land.png");
 	land2->setAnchorPoint(Vec2::ZERO);
 	land2->setPosition(Vec2(land1->getContentSize().width - 2.0f, 0));
-	this->addChild(land2, 30);
+	this->addChild(land2, 3);
 
 	// 开启滚动地板定时器
 	this->schedule(schedule_selector(GameLayer::scroll), 0.02f);
@@ -106,6 +107,8 @@ bool GameLayer::init()
 	EventDispatcher* eventDispatcher = Director::getInstance()->getEventDispatcher();
 	eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
 	eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+
+	return true;
 }
 
 // 滚动
@@ -149,7 +152,7 @@ void GameLayer::rotateBird()
 // 判断碰撞，改变分数
 void GameLayer::checkHit()
 {
-	for (auto pipe : this->pipes) {
+	for (auto pipe : pipes) {
 		if (pipe->getTag() == PIPE_NEW) {
 			if (pipe->getPositionX() < bird->getPositionX()) {
 				SimpleAudioEngine::getInstance()->playEffect("sounds/swooshing.wav");
@@ -165,22 +168,23 @@ void GameLayer::checkHit()
 // 触摸事件
 void GameLayer::onTouchesBegan(const vector<Touch*>& touches, Event *event)
 {
-	if (this->gameState == GAME_STATE_OVER) 
+	if (gameState == GAME_STATE_OVER) 
 	{
 		return;
 	}
 
 	SimpleAudioEngine::getInstance()->playEffect("sounds/fly.wav");
 
-	if (this->gameState == GAME_STATE_READY) 
+	if (gameState == GAME_STATE_READY) 
 	{		
+		this->delegator->onGameStart();
 		bird->fly();
-		this->gameState = GAME_STATE_START;
+		gameState = GAME_STATE_START;
 		this->createPipes();
 	}
-	else if (this->gameState == GAME_STATE_START) 
+	else if (gameState == GAME_STATE_START) 
 	{
-		this->bird->getPhysicsBody()->setVelocity(Vect(0, BIRD_VELOCITY));
+		bird->getPhysicsBody()->setVelocity(Vect(0, BIRD_VELOCITY));
 	}
 }
 
@@ -189,8 +193,10 @@ void GameLayer::createPipes()
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 
+	// 屏幕中有两组管道
 	for (int i = 0; i < 2; i++) 
 	{
+		
 		Sprite* pipeUp = Sprite::createWithSpriteFrameName("pipe_up.png");
 		Sprite* pipeDown = Sprite::createWithSpriteFrameName("pipe_down.png");
 		Node* pipe = Node::create();
@@ -200,6 +206,7 @@ void GameLayer::createPipes()
 		pipe->addChild(pipeUp, 0, UP_PIPE);
 		pipe->setPosition(visibleSize.width + i*PIPE_INTERVAL + WAIT_DISTANCE, this->getRandomHeight());
 
+		// 添加物理引擎
 		auto body = PhysicsBody::create();
 		body->addShape(PhysicsShapeBox::create(pipeDown->getContentSize(), PHYSICSSHAPE_MATERIAL_DEFAULT, Vec2(0, PIPE_HEIGHT + PIPE_DISTANCE)));
 		body->addShape(PhysicsShapeBox::create(pipeUp->getContentSize()));
@@ -223,7 +230,7 @@ int GameLayer::getRandomHeight()
 // 游戏结束
 void GameLayer::gameOver()
 {
-	if (this->gameState == GAME_STATE_OVER)
+	if (gameState == GAME_STATE_OVER)
 	{
 		return;
 	}
@@ -233,10 +240,10 @@ void GameLayer::gameOver()
 	// 停止滚动
 	this->unschedule(schedule_selector(GameLayer::scroll));
 
+	// 执行死亡动作
 	bird->die();
-	bird->setRotation(-90);
-	this->birdFadeOut();
-	this->gameState = GAME_STATE_OVER;
+	birdFadeOut();
+	gameState = GAME_STATE_OVER;
 }
 
 void GameLayer::birdFadeOut()
@@ -244,8 +251,7 @@ void GameLayer::birdFadeOut()
 	FadeOut* animation = FadeOut::create(1.5);
 	CallFunc* animationDone = CallFunc::create(bind(&GameLayer::birdRemove, this));
 	Sequence* sequence = Sequence::createWithTwoActions(animation, animationDone);
-	this->bird->stopAllActions();
-	this->bird->runAction(sequence);
+	bird->runAction(sequence);
 }
 
 void GameLayer::birdRemove()

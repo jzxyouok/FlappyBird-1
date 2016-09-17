@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include "BackgroundLayer.h"
 #include "GameLayer.h"
+#include "StatusLayer.h"
 
 USING_NS_CC;
 

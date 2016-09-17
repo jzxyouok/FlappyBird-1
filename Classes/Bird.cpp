@@ -97,6 +97,7 @@ void Bird::die()
 {
 	if (changeState(ACTION_STATE_DIE))
 	{
+		this->setRotation(-90);
 		this->stopAllActions();
 	}
 }

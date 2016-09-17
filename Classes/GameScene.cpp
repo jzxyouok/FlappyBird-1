@@ -17,12 +17,19 @@ bool GameScene::init()
 		this->addChild(background, 0);
 	}
 
+	// 状态层
+	auto statusLayer = StatusLayer::create();
+
 	// 游戏层
 	auto gameLayer = GameLayer::create();
 	if (gameLayer)
 	{
-		gameLayer->setPhyWorld(this->getPhysicsWorld());
+		gameLayer->setDelegator(statusLayer);
 		this->addChild(gameLayer, 1);
+	}
+
+	if (statusLayer) {
+		this->addChild(statusLayer);
 	}
 
 	return true;
