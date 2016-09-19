@@ -19,7 +19,7 @@ const int PIPE_NEW = 31;
 const int BIRD_NEW = 32;
 const int LAND_TAG = 33;
 
-const int BIRD_RADIUS = 23;		// 小鸟半径
+const int BIRD_RADIUS = 15;		// 小鸟半径
 const int BIRD_VELOCITY = 260;	// 小鸟重力
 const int PIPE_WIDTH = 52;		// 管道宽度
 const int PIPE_HEIGHT = 320;	// 管道长度
@@ -39,7 +39,8 @@ typedef enum {
 class StatusDelegate {
 public:
 	virtual void onGameStart(void) = 0;
-
+	virtual void onGamePlaying(int score) = 0;
+	virtual void onGameEnd(int curScore, int bestScore) = 0;
 };
 
 class GameLayer : public Layer

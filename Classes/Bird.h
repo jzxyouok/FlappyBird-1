@@ -24,7 +24,6 @@ public:
 private:
 	string birdName;	// 小鸟名字
 	string birdFormat;	// 小鸟帧动画名字
-
 	BirdState m_state;	// 小鸟状态
 
 	Action* flyAcion;	// 飞行动作

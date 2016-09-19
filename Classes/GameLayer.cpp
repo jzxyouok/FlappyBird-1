@@ -159,6 +159,8 @@ void GameLayer::checkHit()
 				
 				this->score++;
 				
+				this->delegator->onGamePlaying(score);
+
 				pipe->setTag(PIPE_PASS);
 			}
 		}
@@ -236,6 +238,8 @@ void GameLayer::gameOver()
 	}
 
 	SimpleAudioEngine::getInstance()->playEffect("sounds/hit.wav");
+
+	this->delegator->onGameEnd(this->score, 11);
 
 	// 停止滚动
 	this->unschedule(schedule_selector(GameLayer::scroll));

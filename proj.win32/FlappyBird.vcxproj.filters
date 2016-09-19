@@ -48,6 +48,9 @@
     <ClCompile Include="..\Classes\StatusLayer.cpp">
       <Filter>src\layer</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Number.cpp">
+      <Filter>src\model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -76,6 +79,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\StatusLayer.h">
       <Filter>src\layer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Number.h">
+      <Filter>src\model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
