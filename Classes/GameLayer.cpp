@@ -239,14 +239,21 @@ void GameLayer::gameOver()
 
 	SimpleAudioEngine::getInstance()->playEffect("sounds/hit.wav");
 
-	this->delegator->onGameEnd(this->score, 11);
+	int bestScore = UserDefault::getInstance()->getIntegerForKey("best_score");
+
+	if (score > bestScore)
+	{
+		UserDefault::getInstance()->setIntegerForKey("best_score", score);
+	}
+
+	this->delegator->onGameEnd(this->score, bestScore);
 
 	// 停止滚动
 	this->unschedule(schedule_selector(GameLayer::scroll));
 
 	// 执行死亡动作
 	bird->die();
-	birdFadeOut();
+	this->birdFadeOut();
 	gameState = GAME_STATE_OVER;
 }
 

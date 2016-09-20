@@ -25,7 +25,7 @@ bool GameScene::init()
 	if (gameLayer)
 	{
 		gameLayer->setDelegator(statusLayer);
-		this->addChild(gameLayer, 1);
+		this->addChild(gameLayer);
 	}
 
 	if (statusLayer) {
